@@ -19,7 +19,7 @@ Monitoring helper for PRTG Network monitoring system (https://www.paessler.com/)
 
 ![PRTG](img/prtg.jpg)
 
-### NUT specific
+### NUT specific (dummy driver)
 Added support for NUT (https://networkupstools.org/)
 
 Add your UPS to `/etc/nut/ups.conf` file:
@@ -28,6 +28,23 @@ Add your UPS to `/etc/nut/ups.conf` file:
     driver = dummy-ups
     desc = "Test UPS"
     port = /var/www/html/prtg-apc-modbus/output.arr
+```
+
+### NUT specific (snmp driver)
+Added support for NUT (https://networkupstools.org/)
+
+Add your UPS to `/etc/nut/ups.conf` file:
+```ini
+[ups3]
+    driver = snmp-ups
+    desc = "Test SNMP"
+    port = {your SNMP server IP}
+    community = public
+    snmp_version = v2c
+```
+Add below line to your `/etc/snmp/snmpd.conf`
+```
+pass    .1.3.6.1.4.1.318                     /usr/bin/python3 /opt/apc_modbus2snmp.py
 ```
 
 ![NUT](img/nut.jpg)
