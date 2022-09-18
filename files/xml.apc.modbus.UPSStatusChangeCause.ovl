@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="xml.apc.modbus.UPSStatusChangeCause" desiredValue="8" undefinedState="Warning" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PaeValueLookup.xsd">
+    <Lookups>
+      <SingleInt state="OK"      value="0">SystemInitialization<!--Indicates that the present state is achieved due to microprocessor reset. Value at start-up.--></SingleInt>
+      <SingleInt state="Error"   value="1">HighInputVoltage<!--A high input voltage condition caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="2">LowInputVoltage<!--A low input voltage condition caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="3">DistortedInput<!--A bad input condition (distorted voltage or unstable frequency, "turbo") caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="4">RapidChangeOfInputVoltage<!--A rapid change in the input voltage ("dV/dt") caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="5">HighInputFrequency<!--A high input frequency caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="6">LowInputFrequency<!--A low input frequency caused the transition.--></SingleInt>
+      <SingleInt state="Error"   value="7">FreqAndOrPhaseDifference<!--A difference in frequency and/or phase between the input and the system caused the transition.--></SingleInt>
+      <SingleInt state="OK"      value="8">AcceptableInput<!--An acceptable input (both voltage and frequency) caused the transition.--></SingleInt>
+      <SingleInt state="Warning" value="9">AutomaticTest<!--Indicates that a test has been initiated via the automatic timer in the UPS (or other programatic determination, e.g., power on). This can be any test, e.g., replace battery test or run time calibration.--></SingleInt>
+      <SingleInt state="None"    value="10">TestEnded<!--Indicates that a test has been either completed (successfully or unsuccessfully) or aborted to cause the transition. Note that the only aborted causes that will be captured with this value are the ones that result in the same status after the test has been aborted. For example, a load change during a run time calibration that causes the test to abort and the status to return to on-line. As opposed to a local UI command (off button) that causes the run time calibration to be aborted but the status does not change to on-line.--></SingleInt>
+      <SingleInt state="OK"      value="11">LocalUICommand<!--Indicates the user pressed the on/off or other button locally to cause the transition. Includes local terminal mode interface if applicable.--></SingleInt>
+      <SingleInt state="None"    value="12">ProtocolCommand<!--Indicates that a command received over the smart interface has caused the state change.--></SingleInt>
+      <SingleInt state="Error"   value="13">LowBatteryVoltage<!--A low battery voltage caused the transition. This would be used for low battery shutdown, but may also be used when transitioning between other states due to a low battery voltage criteria.--></SingleInt>
+      <SingleInt state="Error"   value="14">GeneralError<!--A general error caused the transistion. GeneralError_BF usage contains the specific fault if still valid.--></SingleInt>
+      <SingleInt state="Error"   value="15">PowerSystemError<!--A power system error caused the transistion. PowerSystemError_BF usage contains the specific fault if still valid.--></SingleInt>
+      <SingleInt state="Error"   value="16">BatterySystemError<!--A battery system error caused the transistion. BatterySystemError_BF usage contains the specific fault if still valid.--></SingleInt>
+      <SingleInt state="OK"      value="17">ErrorCleared<!--Indicates that the system changed states due to an error clearing. (Some errors may still exist but a state change occurred even with those errors present.).--></SingleInt>
+      <SingleInt state="Warning" value="18">AutomaticRestart<!--Indicates that internal conditions have met to allow the output to turn on, after a battery depletion. (8051 may not use this one, because it requires EEPROM storage of the state).--></SingleInt>
+      <SingleInt state="Error"   value="19">DistortedInverterOutput<!--Indicates that the system changed states due to a distorted waveform detected on the output ("turbo").--></SingleInt>
+      <SingleInt state="OK"      value="20">InverterOutputAcceptable<!--Indicates that the system changed states due to no further distortion on the output waveform.--></SingleInt>
+      <SingleInt state="Warning" value="21">EPOInterface<!--Indicates that an input was received at the UPS through the EPO interface to turn off the output.--></SingleInt>
+      <SingleInt state="Error"   value="22">InputPhaseDeltaOutOfRange<!--Indicates input phase delta is out of limit.--></SingleInt>
+      <SingleInt state="Error"   value="23">InputNeutralNotConnected<!--Indicates that neutral leg is missing.--></SingleInt>
+      <SingleInt state="Warning" value="24">ATSTransfer<!--Indicates that state change was caused due to ATS operation.--></SingleInt>
+      <SingleInt state="Warning" value="25">ConfigurationChange<!--Indicates that state change was caused by a configuration change (eg. a change in AllowedOperatingMode_BF).--></SingleInt>
+      <SingleInt state="None"    value="26">AlertAsserted<!--An informational alert has caused the transistion.--></SingleInt>
+      <SingleInt state="None"    value="27">AlertCleared<!--Indicates that the system changed states due to an Informational alert acknowledge or cleared.--></SingleInt>
+      <SingleInt state="Error"   value="28">PlugRatingExceeded<!--Indicates transition happened because Input current exceeded plug rating. Example when operating in "boost" mode when input current exceeds line cord rating transition to battery.--></SingleInt>
+      <SingleInt state="None"    value="29">OutletGroupStateChange<!--Indicates the transition occured due to Main Outlet Group (MOG) or Switched Outlet Group (SOG) state change.--></SingleInt>
+      <SingleInt state="Warning" value="30">FailureBypassExpired<!--Indicates that load was turned off due to inability to continue operating in failure bypass.--></SingleInt>
+    </Lookups>
+  </ValueLookup>

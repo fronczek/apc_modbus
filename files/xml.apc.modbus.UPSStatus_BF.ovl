@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="xml.apc.modbus.UPSStatus_BF" desiredValue="2" undefinedState="Warning" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PaeValueLookup.xsd">
+    <Lookups>
+      <BitField state="None"    value="0">Reserved</BitField>
+      <BitField state="OK"      value="2">StateOnline</BitField><!-- Indicating that the power for the output is being sourced from the input. Mutually exclusive with other state bits. -->
+      <BitField state="Warning" value="4">StateOnBattery</BitField><!-- Indicating that the power for the output is being sourced from the battery. Mutually exclusive with other state bits. -->
+      <BitField state="None"    value="8">Reserved</BitField>
+      <BitField state="Warning" value="16">StateOutputOff</BitField><!-- Indicates that the output is not powered through the UPS (Including any internal bypass paths). Some examples are: Off because of Fault or Low-Battery. Mutually exclusive with other state bits. -->
+      <BitField state="Error"   value="32">Fault</BitField><!-- Indicates that a fault of any severity (Warning, or Critical) is present in the system, which may have caused a transition. -->
+      <BitField state="Error"   value="64">InputBad</BitField><!-- Indicates that the input is not acceptable. -->
+      <BitField state="OK"      value="128">Test-Modifier</BitField><!-- Indicates that a test is in progress. -->
+      <BitField state="Warning" value="256">PendingOutputOn</BitField><!-- Indicates that the state is pending output on (either on line, on battery, or bypass). Should only be set in combination with StateOutputOff. -->
+      <BitField state="Error"   value="512">PendingOutputOff</BitField><!-- Indicates that the state is pending output off. Master sets this whenever the ups is in process of turning off, or immediately when on battery for input bad. Will never be set in combination with StateOutputOff. When set the slave should monitor RunTimeRemaining. When / if run time is less than or equal to the slave's minimum run time threshold, the slave should start the shutdown process. This bit may also be set in conditions other than above, e.g., in bypass due to fault. -->
+      <BitField state="None"    value="1024">Reserved</BitField>
+      <BitField state="None"    value="2048">Reserved</BitField>
+      <BitField state="None"    value="4096">Reserved</BitField>
+      <BitField state="OK"      value="8192">HighEfficiency</BitField><!-- Indicates that the UPS is operating in a high efficiency mode (eg. green mode, Economy Mode, ECO Mode). -->
+      <BitField state="Warning" value="16384">InformationalAlert</BitField><!-- Indicates that the UPS has an informational alert active. (eg. Lifetime Status near end). -->
+      <BitField state="None"    value="32768">Reserved</BitField>
+    </Lookups>
+  </ValueLookup>
