@@ -24,7 +24,7 @@ parser.add_argument("-p", required=False, help="APC UPS port", default=502)
 parser.add_argument("-u", required=False, help="APC UPS UnitID", default=1)
 parser.add_argument("-g", required=False, help="needed by pass PROG -g", default="")
 parser.add_argument("-n", required=False, help="needed by pass PROG -n", default="")
-parser.add_argument("-w", required=False, help="workdir writeable by snmp", default=".")
+parser.add_argument("-w", required=False, help="workdir writeable by snmp", default="/tmp")
 parser.add_argument("-x", required=False, help="var test name")
 parser.add_argument("-v", action="count", help="verbose", default=0)
 args = parser.parse_args()
@@ -102,6 +102,10 @@ if c.open():
     ups_BattVoltage = c.read_holding_registers(131, 1)
     ups_BattVoltage = ups_BattVoltage[0]/32
     save_var("ups_BattVoltage", ups_BattVoltage)
+
+    ups_ReplaceBatteryTestStatus_BF = c.read_holding_registers(23, 1)
+    ups_ReplaceBatteryTestStatus_BF = ups_ReplaceBatteryTestStatus_BF[0]
+    save_var("ups_ReplaceBatteryTestStatus_BF", ups_ReplaceBatteryTestStatus_BF)
 
     ups_StatusChangeCause = c.read_holding_registers(2, 1)
     ups_StatusChangeCause = ups_StatusChangeCause[0]
@@ -224,10 +228,16 @@ if args.g == ".1.3.6.1.4.1.318.1.1.1.2.2.1.0":
     print(int(float(read_var(name="ups_BattChargePct"))))
 
 # ups_BasicBatteryStatus
-if args.g == ".1.3.6.1.4.1.318.1.1.1.2.1.1.0":
+if args.g == ".1.3.6.1.4.1.318.1.1.1.7.2.3.0":
     print(args.g)
     print("integer")
     print(int(read_var(name="ups_BasicBatteryStatus")))
+
+# ups_ReplaceBatteryTestStatus_BF
+if args.g == ".1.3.6.1.4.1.318.1.1.1.2.1.1.0":
+    print(args.g)
+    print("integer")
+    print(int(read_var(name="ups_ReplaceBatteryTestStatus_BF")))
 
 # ups_HighPrecBatteryCapacity
 if args.g == ".1.3.6.1.4.1.318.1.1.1.2.3.1.0":
