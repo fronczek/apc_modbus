@@ -105,6 +105,12 @@ if c.open():
 
     ups_ReplaceBatteryTestStatus_BF = c.read_holding_registers(23, 1)
     ups_ReplaceBatteryTestStatus_BF = ups_ReplaceBatteryTestStatus_BF[0]
+    if ups_ReplaceBatteryTestStatus_BF == 68:
+         # PRTG: 1 = OK
+         ups_ReplaceBatteryTestStatus_BF = 1
+    else:
+        # PRTG: 3 = warning / invalid test
+        ups_ReplaceBatteryTestStatus_BF = 3
     save_var("ups_ReplaceBatteryTestStatus_BF", ups_ReplaceBatteryTestStatus_BF)
 
     ups_StatusChangeCause = c.read_holding_registers(2, 1)
