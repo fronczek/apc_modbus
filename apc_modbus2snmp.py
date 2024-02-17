@@ -9,7 +9,7 @@ from pyModbusTCP.client import ModbusClient
 #    sys.exit(1)
 
 # ADD below line to your /etc/snmp/snmpd.conf
-# pass    .1.3.6.1.4.1.318                     /usr/bin/python3 /opt/apc_modbus_ups.py
+# pass    .1.3.6.1.4.1.318                     /usr/bin/python3 /opt/apc_modbus/apc_modbus2snmp.py
 
 # test with:
 # sudo -u Debian-snmp ./apc_modbus_ups.py -v;grep -E ".*" /tmp/ups*.txt --color=always
@@ -24,7 +24,7 @@ parser.add_argument("-p", required=False, help="APC UPS port", default=502)
 parser.add_argument("-u", required=False, help="APC UPS UnitID", default=1)
 parser.add_argument("-g", required=False, help="needed by pass PROG -g", default="")
 parser.add_argument("-n", required=False, help="needed by pass PROG -n", default="")
-parser.add_argument("-w", required=False, help="workdir writeable by snmp", default="/tmp/")
+parser.add_argument("-w", required=False, help="workdir writeable by snmp", default=".")
 parser.add_argument("-x", required=False, help="var test name")
 parser.add_argument("-v", action="count", help="verbose", default=0)
 args = parser.parse_args()
