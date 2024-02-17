@@ -103,16 +103,6 @@ if c.open():
     ups_BattVoltage = ups_BattVoltage[0]/32
     save_var("ups_BattVoltage", ups_BattVoltage)
 
-    ups_ReplaceBatteryTestStatus_BF = c.read_holding_registers(23, 1)
-    ups_ReplaceBatteryTestStatus_BF = ups_ReplaceBatteryTestStatus_BF[0]
-    if ups_ReplaceBatteryTestStatus_BF == 68:
-         # PRTG: 1 = OK
-         ups_ReplaceBatteryTestStatus_BF = 1
-    else:
-        # PRTG: 3 = warning / invalid test
-        ups_ReplaceBatteryTestStatus_BF = 3
-    save_var("ups_ReplaceBatteryTestStatus_BF", ups_ReplaceBatteryTestStatus_BF)
-
     ups_StatusChangeCause = c.read_holding_registers(2, 1)
     ups_StatusChangeCause = ups_StatusChangeCause[0]
     save_var("ups_StatusChangeCause", ups_StatusChangeCause)
@@ -120,6 +110,24 @@ if c.open():
     ups_StatusBF = c.read_holding_registers(0, 2)
     ups_StatusBF = ups_StatusBF[0] + ups_StatusBF[1]
     save_var("ups_StatusBF", ups_StatusBF)
+
+    # Added 2024-02-17
+    ups_ReplaceBatteryTestStatus_BF = c.read_holding_registers(23, 1)
+    # PRTG lookup conversion:
+    if ups_ReplaceBatteryTestStatus_BF[0] == 68 or ups_ReplaceBatteryTestStatus_BF[0] == 4:
+        # Status: OK (OK)
+        ups_ReplaceBatteryTestStatus_BF = 1
+    elif ups_ReplaceBatteryTestStatus_BF[0] == 8:
+        # Status: test failed
+        ups_ReplaceBatteryTestStatus_BF = 2
+    elif ups_ReplaceBatteryTestStatus_BF[0] == 2:
+        # Status: test in progress
+        ups_ReplaceBatteryTestStatus_BF = 4
+    else:
+        # Status: Invalid test (warning)
+        ups_ReplaceBatteryTestStatus_BF = 3
+
+    save_var("ups_ReplaceBatteryTestStatus_BF", ups_ReplaceBatteryTestStatus_BF)
 
     ups_CalculatedLoadW = (ups_RealPowerPct/100) * (ups_OutputRealPowerRating)
     save_var("ups_CalculatedLoadW", ups_CalculatedLoadW)
@@ -233,17 +241,11 @@ if args.g == ".1.3.6.1.4.1.318.1.1.1.2.2.1.0":
     print("gauge")
     print(int(float(read_var(name="ups_BattChargePct"))))
 
-# ups_BasicBatteryStatus
+# ups_BasicBatteryStatus  (PRTG: Last Battery Test Status lookup)
 if args.g == ".1.3.6.1.4.1.318.1.1.1.7.2.3.0":
     print(args.g)
     print("integer")
     print(int(read_var(name="ups_BasicBatteryStatus")))
-
-# ups_ReplaceBatteryTestStatus_BF
-if args.g == ".1.3.6.1.4.1.318.1.1.1.2.1.1.0":
-    print(args.g)
-    print("integer")
-    print(int(read_var(name="ups_ReplaceBatteryTestStatus_BF")))
 
 # ups_HighPrecBatteryCapacity
 if args.g == ".1.3.6.1.4.1.318.1.1.1.2.3.1.0":
