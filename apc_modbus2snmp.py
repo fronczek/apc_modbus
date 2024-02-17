@@ -245,7 +245,8 @@ if args.g == ".1.3.6.1.4.1.318.1.1.1.2.2.1.0":
 if args.g == ".1.3.6.1.4.1.318.1.1.1.7.2.3.0":
     print(args.g)
     print("integer")
-    print(int(read_var(name="ups_BasicBatteryStatus")))
+    #print(int(read_var(name="ups_BasicBatteryStatus")))
+    print(int(read_var(name="ups_ReplaceBatteryTestStatus_BF")))
 
 # ups_HighPrecBatteryCapacity
 if args.g == ".1.3.6.1.4.1.318.1.1.1.2.3.1.0":
