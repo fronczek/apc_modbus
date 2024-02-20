@@ -5,8 +5,8 @@ import argparse
 import syslog
 from pyModbusTCP.client import ModbusClient
 
-if os.getenv('USER') != 'Debian-snmp':
-    syslog.syslog("Running as " + str(os.getenv('USER')))
+#if os.getenv('USER') != 'Debian-snmp':
+    #syslog.syslog("Running as " + str(os.getenv('USER')))
     #sys.stderr.write("Not running as Debian-snmp, exiting...\n")
     #sys.exit(1)
 
