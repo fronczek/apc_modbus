@@ -4,9 +4,9 @@ import os
 import argparse
 from pyModbusTCP.client import ModbusClient
 
-#if os.getenv('USER') != 'Debian-snmp':
-#    sys.stderr.write("Not running as Debian-snmp, exiting...\n")
-#    sys.exit(1)
+if os.getenv('USER') != 'Debian-snmp':
+    sys.stderr.write("Not running as Debian-snmp, exiting...\n")
+    sys.exit(1)
 
 # ADD below line to your /etc/snmp/snmpd.conf
 # pass    .1.3.6.1.4.1.318                     /usr/bin/python3 /opt/apc_modbus/apc_modbus2snmp.py
@@ -117,6 +117,19 @@ if c.open():
     save_var("ups_ReplaceBatteryTestStatus_BF", ups_ReplaceBatteryTestStatus_BF)
 
     # PRTG lookup conversion:
+    # 0     0   Pending-Replace battery test is pending (high level acknowledgement of command).
+    # 2     1   InProgress-Replace battery test is in progress.
+    # 4     2   Passed-Replace battery test passed (completed successfully).
+    # 8     3   Failed-Replace battery test failed (completed unsuccessfully).
+    # 16    4   Refused-Replace battery test was refused (check "result modifier" bits for potentially additional details). Note: should not change source modifier when refusing a test as the refusal is always internal and the origin of the test would be lost any time the test is refused.
+    # 32    5   Aborted-Replace battery test was aborted (check "result modifier" and "source modifier" bits for potentially additional details).
+    # 64    6   Protocol-Source modifier: the protocol is the origin for initiation or abortion of the replace battery test.
+    # 128   7   LocalUI-Source modifier: the local user interface is the origin for initiation or abortion of the replace battery test. Includes local terminal mode interface if applicable.
+    # 256   8   Internal-Source modifier: internal control is the origin for initiation or abortion of the replace battery test.
+    # 512   9   InvalidState-Result modifier: invalid UPS operating state (e.g., shutdown pending, output off, ups in bypass, input voltage not acceptable).
+    # 1024  10  InternalFault-Result modifier: an internal fault exists (e.g., battery is missing, inverter failure). Also, overload in progress which is not in the error usages.
+    # 2048  11  StateOfChargeNo
+
     if ups_ReplaceBatteryTestStatus_BF == 132 or ups_ReplaceBatteryTestStatus_BF == 68 or ups_ReplaceBatteryTestStatus_BF == 4:
         # Status: OK (OK)
         ups_ReplaceBatteryTestStatus = 1
