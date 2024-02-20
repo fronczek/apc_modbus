@@ -2,11 +2,13 @@
 import sys
 import os
 import argparse
+import syslog
 from pyModbusTCP.client import ModbusClient
 
 if os.getenv('USER') != 'Debian-snmp':
-    sys.stderr.write("Not running as Debian-snmp, exiting...\n")
-    sys.exit(1)
+    syslog.syslog("Running as " + str(os.getenv('USER')))
+    #sys.stderr.write("Not running as Debian-snmp, exiting...\n")
+    #sys.exit(1)
 
 # ADD below line to your /etc/snmp/snmpd.conf
 # pass    .1.3.6.1.4.1.318                     /usr/bin/python3 /opt/apc_modbus/apc_modbus2snmp.py
@@ -130,7 +132,7 @@ if c.open():
     # 1024  10  InternalFault-Result modifier: an internal fault exists (e.g., battery is missing, inverter failure). Also, overload in progress which is not in the error usages.
     # 2048  11  StateOfChargeNo
 
-    if ups_ReplaceBatteryTestStatus_BF == 132 or ups_ReplaceBatteryTestStatus_BF == 68 or ups_ReplaceBatteryTestStatus_BF == 4:
+    if ups_ReplaceBatteryTestStatus_BF == 132 or ups_ReplaceBatteryTestStatus_BF == 68 or ups_ReplaceBatteryTestStatus_BF == 4 or ups_ReplaceBatteryTestStatus_BF == 0:
         # Status: OK (OK)
         ups_ReplaceBatteryTestStatus = 1
     elif ups_ReplaceBatteryTestStatus_BF == 8:
